@@ -6,15 +6,32 @@ class Busquedas {
     constructor(){
         //TODO Leer DB si existe
     }
-
+    
+    
     async ciudad(lugar =''){
-        //petición http
-        //console.log('Ciudad: ',lugar);
-
+        
         try {
-            const resp = await axios.get('https://reqres.in/api/users?page=2');
-            console.log(resp.data)
-            return []
+            //petición http
+
+            const instance = axios.create({
+                baseURL: `https://api.mapbox.com/geocoding/v5/mapbox.places/${lugar}.json`,
+                params: {
+                    'access_token': process.env.MAPBOX_KEY,
+                    'limit': 5,
+                    'language': 'es'
+                }
+            });
+ 
+            const resp = await instance.get();
+            console.log(resp.data.features)
+
+            return resp.data.features.map(lugar => ({
+                id: lugar.id,
+                nombre: lugar.place_name,
+                lng: lugar.center[0],
+                lat: lugar.center[1]
+
+            }))
         } catch (error) {
             return []
         }

@@ -1,7 +1,9 @@
-import { inquirerMenu, leerInput, pausa } from "./helpers/inquirer.js";
+import * as dotenv from 'dotenv'
+dotenv.config()
+import { inquirerMenu, leerInput, listarLugares, pausa } from "./helpers/inquirer.js";
+
 
 import Busquedas from "./models/busquedas.js";
-
 
 const main = async()=>{
     let opt;
@@ -13,12 +15,15 @@ const main = async()=>{
         switch (opt) {
             case 1:
                 // Mostrar mensaje
-                const lugar = await leerInput('Ciudad: ')
-                await busquedas.ciudad(lugar)
+                const termino = await leerInput('Ciudad: ')
                 //Buscar lugares
-
-
+                const lugares = await busquedas.ciudad(termino)
+                
                 //Seleccionar el lugar
+                const id = await listarLugares(lugares)
+                const lugarSel = lugares.find(lugar => lugar.id === id)
+                const {nombre, lng, lat} =lugarSel
+                
 
 
                 //Clima
@@ -28,9 +33,9 @@ const main = async()=>{
 
 
                 console.log('\nInformación de la ciudad\n'.green);
-                console.log('Ciudad:', )
-                console.log('Lat:', )
-                console.log('Lng:', )
+                console.log('Ciudad:', nombre )
+                console.log('Lat:', lat )
+                console.log('Lng:', lng)
                 console.log('Temperatura:', )
                 console.log('Mínima:', )
                 console.log('Máxima:', )
