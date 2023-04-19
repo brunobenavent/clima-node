@@ -46,20 +46,19 @@ const main = async()=>{
                 console.log('Mínima:',  clima.min)
                 console.log('Máxima:', clima.max )
                 console.log('Cómo está el clima:', clima.desc.green )
-                await pausa()
                 break;
         
             case 2:
-                busquedas.historial.forEach((lugar,i) =>{
-                    const idx = `${i++}`.green;
-                    console.log(`${idx} ${lugar}`)
-
+                busquedas.historialCapitalizado.forEach( (lugar, i) =>  {
+                    const idx = `${ i + 1 }.`.green;
+                    console.log( `${ idx } ${ lugar } ` );
                 })
 
-                break;
+            break;
 
             
         }
+        if ( opt !== 0 ) await pausa();
         
     } while (opt!==0);
 }
